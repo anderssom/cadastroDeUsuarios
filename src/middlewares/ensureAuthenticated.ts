@@ -11,7 +11,7 @@ interface TokenPayload {
 
 export default function ensureAuthenticated(
     request: Request,
-    respose: Response,
+    response: Response,
     next: NextFunction
     ): void {
 
