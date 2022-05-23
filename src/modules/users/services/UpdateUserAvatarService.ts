@@ -2,8 +2,9 @@ import { getRepository } from 'typeorm';
 import path from 'path';
 import fs from 'fs';
 
-import Users from '../models/Users';
-import uploadConfig from '../config/upload'
+import Users from '@modules/users/infra/typeorm/entities/Users';
+import uploadConfig from '@config/upload'
+import AppError from '@shared/errors/AppError';
 
 interface RequestDTO {
     user_id: string;
@@ -17,7 +18,7 @@ export default class UpdateUserAvatarSerice {
         const user = await userRepository.findOne(user_id);
 
         if(!user) {
-            throw new Error('Only authenticated users can change avatar.');
+            throw new AppError('Only authenticated users can change avatar.', 401);
         }
 
         if (user.avatar) {

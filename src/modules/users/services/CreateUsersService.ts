@@ -2,7 +2,8 @@ import { getRepository } from 'typeorm';
 //criptografia de senha
 import { hash } from 'bcryptjs';
 
-import Users from '../models/Users';
+import AppError from '@shared/errors/AppError';
+import Users from '@modules/users/infra/typeorm/entities/Users';
 
 
 interface Request {
@@ -21,7 +22,7 @@ class CreateUserService {
        });
 
        if (checkUserExists) {
-           throw new  Error('Email address already used.');
+           throw new  AppError('Email address already used.');
        }
        //cripitografia de senha 
        const hashedPassword = await hash(password, 8);
