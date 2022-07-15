@@ -1,8 +1,11 @@
-import { getRepository } from 'typeorm';
 //criptografia de senha
 import { hash } from 'bcryptjs';
 
+import { injectable, inject } from 'tsyringe';
+
 import AppError from '@shared/errors/AppError';
+import IUsersRepository from '../repositories/IUsersRepository';
+
 import Users from '@modules/users/infra/typeorm/entities/Users';
 
 
@@ -12,14 +15,15 @@ interface Request {
     password: string;
 }
 
+@injectable()
 class CreateUserService {
+    constructor(
+        @inject('UsersRepository')
+        private usersRepository: IUsersRepository) {}
+
    public async execute({ name, email, password}:Request): Promise<Users> {
-       const usersRepository = getRepository(Users);
 
-       const checkUserExists = await usersRepository.findOne({
-           where: { email },
-
-       });
+       const checkUserExists = await this.usersRepository.findByEmail(email);
 
        if (checkUserExists) {
            throw new  AppError('Email address already used.');
@@ -27,13 +31,11 @@ class CreateUserService {
        //cripitografia de senha 
        const hashedPassword = await hash(password, 8);
 
-       const user = usersRepository.create({
+       const user = await this.usersRepository.create({
            name,
            email,
            password: hashedPassword,
        });
-
-       await usersRepository.save(user);
 
        return user;
 
