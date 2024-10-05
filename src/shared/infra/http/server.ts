@@ -4,7 +4,7 @@ import 'express-async-errors';
 
 import routes from '@shared/infra/http/routes';
 import upload from '@config/upload';
-import '@shared/infra/database';
+import '@shared/infra/typeorm';
 import AppError from '@shared/errors/AppError';
 
 const app = express();

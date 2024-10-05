@@ -11,7 +11,7 @@ export default {
   // bail: 0,
 
   // The directory where Jest should store its cached dependency information
-  // cacheDirectory: "/tmp/jest_0",
+  // cacheDirectory: "/tmp/jest_rs",
 
   // Automatically clear mock calls, instances, contexts and results before every test
   clearMocks: true,
@@ -153,9 +153,10 @@ export default {
   // testLocationInResults: false,
 
   // The glob patterns Jest uses to detect test files
-  testMatch: [
-    "**/*.spec.ts"
-  ],
+   testMatch: [
+     "**/__tests__/**/*.[jt]s?(x)",
+     "**/?(*.)+(spec|test).[tj]s?(x)"
+   ],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
   // testPathIgnorePatterns: [
